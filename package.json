@@ -1,0 +1,26 @@
+{
+  "name": "wizardfight",
+  "version": "1.0.0",
+  "description": "text based fighting game",
+  "main": "index.js",
+  "scripts": {
+    "test": "karma start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/colbydehart/WIZARD.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/colbydehart/WIZARD/issues"
+  },
+  "homepage": "https://github.com/colbydehart/WIZARD",
+  "devDependencies": {
+    "express": "^4.11.2",
+    "gulp": "^3.8.11",
+    "gulp-load-plugins": "^0.8.0",
+    "jade": "^1.9.2",
+    "lodash": "^3.2.0"
+  }
+}
