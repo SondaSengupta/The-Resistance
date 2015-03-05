@@ -1,4 +1,4 @@
-# WIZARD
+# Hack Wars
 2 player text based fighting game made with node
 
 Do you remember text based adventure games? Have you ever been eaten by a grue? Ever wish you could use your text based 
