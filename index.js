@@ -6,10 +6,12 @@ var express = require('express'),
 app.set('view engine', 'jade');
 app.set('views', './views');
 
+app.use(require('./routes'));
+
 app.use(express.static(__dirname + '/public'));
 
 server.listen(8000, function(){
-  console.log('WIZARD FIGHT ON PORT 8000');
+  console.log('RESISTANCE ON PORT 8000');
 });
 
 io.on('connection', function(socket){

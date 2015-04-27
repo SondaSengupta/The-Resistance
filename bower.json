@@ -1,5 +1,5 @@
 {
-  "name": "wizardfight",
+  "name": "The-Resistance",
   "main": "index.js",
   "version": "0.0.0",
   "homepage": "https://github.com/colbydehart/WIZARD",
@@ -14,5 +14,9 @@
     "public/vendor/",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "backbone": "~1.1.2",
+    "jquery": "~2.1.3"
+  }
 }
