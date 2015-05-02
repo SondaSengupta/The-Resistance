@@ -1,5 +1,5 @@
 /* jshint node:true*/
-module.exports = function(app, io){
+module.exports = function(app){
     var Game = require('./models/game'),
         _ = require('lodash');
 
@@ -26,7 +26,7 @@ module.exports = function(app, io){
 
     app.get('/game/:id/play', function(req, res){
         //render the mobile screen for a game 
-        res.render('play');
+        res.render('play', { game: req.params.id});
     });
 
     function createGame(len){

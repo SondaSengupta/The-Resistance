@@ -13,7 +13,8 @@ mongoose.connect('localhost:27017/theResistance1');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-require('./routes')(app, io);
+require('./routes')(app);
+require('./sockets')(io);
 
 app.use(express.static(__dirname + '/public'));
 
