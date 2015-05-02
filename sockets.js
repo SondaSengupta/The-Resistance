@@ -61,7 +61,6 @@ module.exports = function(io){
         socket.on('turn', function(data){
             Game.findById(data.game)
             .then(function(game){
-                console.log('on turn', game.players);
                 var i = _.findIndex(game.players, {name: data.name});
                 var player = game.players[i];
                 var names = _.pluck(game.players, 'name');
@@ -75,6 +74,56 @@ module.exports = function(io){
                 });
             });
         });
+
+        /*
+        team: array of team member names,
+        id: id of game
+        */
+        socket.on('propose_team', function(data){
+            io.in(data.id).emit('team_vote_request', data.team);
+        });
+
+        /*
+        choice: true or false
+        id: id of the game
+        team: array of team names
+        */
+        socket.on('team_vote', function(vote){
+            Game.findById(id)
+            .then(function(data){
+                data.vote.push(vote.choice);
+                data.markModified(vote);
+                return data.save();
+            })
+            .then(function(data){
+                if(data.vote.length === data.count)
+                    tallyVotes(data, 'team', vote.team);
+            });
+        });
+
+        /*
+        data: list of team members or ...
+        game: id of game
+        type: string 'team' or 'mission'
+        */
+        function tallyVotes (game, type, data) {
+            if(type==='team'){
+                Game.findById(game)
+                .then(function(g){
+                    var mission = _.first(g.missions, {completed: false});
+                    var yays = data.reduce(function(sum, val){return sum + Number(val);});
+                    if (yays > data.length/2 ){
+                        io.in(game).emit('teamSuccess',{
+                            team: data,
+                            mission: mission
+                        });
+                    }
+                    else
+                        failTeam(game);
+                });
+            }
+        }
+
 
         socket.on('disconnect', function(){
             if(name){

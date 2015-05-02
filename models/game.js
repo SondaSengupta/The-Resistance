@@ -6,6 +6,7 @@ var GameSchema = new Schema({
   leader: Number,
   count: Number,
   spies: Number,
+  vote: [],
   players: [],
   missions: [{}]
 });

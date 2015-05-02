@@ -30,35 +30,23 @@ function run(game){
         $game.html('');
     }
 
+    var templ = _.template($('#roles').html());
     socket.on('roles', function(data){
         if(data.player.spy){
-            $game.append($('<p>').text('You are a spy'));
+            toastr.warning('YOU ARE A SPY');
         }
-        if(data.leader){
-            leaderDisplay(data);
-        }
-        else{
-            regularDisplay(data);
-        }
+        $game.html(templ(data));
     });
 
+    //Team leader should submit by emitting a 'propose_team'
+
     function leaderDisplay(data){
-        $game.append($('<p>').text('you are the leader'));
-        data.names.forEach(function(el){
-            $game.append($('<input>').attr({
-                name:'team',
-                type: 'checkbox'
-            }).addClass('team').val(el).text(el));
-        });
     }
 
     function regularDisplay(data){
-        $game.append(
-            $('<p>').text('you are playing!')
-        );
     }
 
     socket.on('message', function(msg){
-        console.log(msg);
+        toastr.info(msg);
     });
 }

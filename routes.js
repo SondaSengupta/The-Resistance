@@ -55,7 +55,8 @@ module.exports = function(app){
             players: [],
             missions: missions,
             leader: 0,
-            started: false
+            started: false,
+            vote: [],
         });
     }
 };
