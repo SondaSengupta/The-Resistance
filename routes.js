@@ -51,10 +51,11 @@ module.exports = function(app){
         missions = missions.map(createMission);
         return new Game({
             spies: Number(spies[len-5]),
-            length: len,
+            count: len,
             players: [],
             missions: missions,
-            leader: 0
+            leader: 0,
+            started: false
         });
     }
 };

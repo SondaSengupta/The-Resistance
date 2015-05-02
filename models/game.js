@@ -2,8 +2,9 @@ var mongoose = require('mongoose');
 var Schema   = mongoose.Schema;
 
 var GameSchema = new Schema({
+  started: Boolean,
   leader: Number,
-  length: Number,
+  count: Number,
   spies: Number,
   players: [],
   missions: [{}]
