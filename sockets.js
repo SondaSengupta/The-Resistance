@@ -55,7 +55,7 @@ module.exports = function(io){
                 found.save(function(err, data){
                     io.in(id).emit('start_game');
                 });
-            })
+            });
         }
 
         socket.on('turn', function(data){
@@ -64,9 +64,11 @@ module.exports = function(io){
                 console.log('on turn', game.players);
                 var i = _.findIndex(game.players, {name: data.name});
                 var player = game.players[i];
+                var names = _.pluck(game.players, 'name');
                 var leader = i === game.leader;
                 var mission = _.first(game.missions, {completed: false});
-                socket.emit('message', {
+                socket.emit('roles', {
+                    names: names,
                     player: player,
                     leader: leader,
                     mission: mission
