@@ -5,7 +5,7 @@ module.exports = function(io){
         mongoose = require('mongoose');
 
     io.on('connection', function(socket) {
-        var game, name, room;
+        var name, room;
         socket.on('join', function(data){
             Game.findById(data.game)
             .then(function(found){
@@ -29,32 +29,50 @@ module.exports = function(io){
                     );
                     return;
                 }
-                game = saved;
+                socket.join(data.game);
                 name = data.name;
                 room = data.game;
-                socket.join(data.game);
-                io.to(room).emit('message', data.name + ' has joined' );
+                io.to(data.game).emit('message', data.name + ' has joined' );
                 //If all players have joined start the game
-                if(game.count === game.players.length){
-                    startGame();
+                if(saved.count === saved.players.length){
+                    startGame(data.game);
                 }
             });
         });
 
-        function startGame(){
-            Game.findById(room)
+        function startGame(id){
+            Game.findById(id)
             .then(function(found){
                 found.started = true;
                 rand = _.shuffle(_.range(found.count));
                 for (var i = 0; i < found.spies; i++) {
                     found.players[rand[i]].spy = true;
                 }
-                return found.save();
+                for (var i = found.spies; i < found.count; i++) {
+                    found.players[rand[i]].spy = false;
+                };
+                found.markModified('players');
+                found.save(function(err, data){
+                    io.in(id).emit('start_game');
+                });
             })
-            .then(function(data){
-                io.in(room).emit('start_game');
-            });
         }
+
+        socket.on('turn', function(data){
+            Game.findById(data.game)
+            .then(function(game){
+                console.log('on turn', game.players);
+                var i = _.findIndex(game.players, {name: data.name});
+                var player = game.players[i];
+                var leader = i === game.leader;
+                var mission = _.first(game.missions, {completed: false});
+                socket.emit('message', {
+                    player: player,
+                    leader: leader,
+                    mission: mission
+                });
+            });
+        });
 
         socket.on('disconnect', function(){
             if(name){
@@ -66,7 +84,6 @@ module.exports = function(io){
                     return game.save();
                 })
                 .then(function(data){
-                    console.log.apply(null, data.players);
                     io.to(room).emit('message', name + ' has disconnected');
                     // if(!game.players.length || game.started){
                     //     endGame(room);
