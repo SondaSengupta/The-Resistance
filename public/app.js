@@ -10,9 +10,19 @@ $(function(){
 });
 
 function run(game){
+    var $game = $('#game');
     var socket = io();
-    socket.emit('join', game);
-    socket.on('message', function(){
-        console.log(arguments);
+    //Join the game
+    $('#join').click(function(){
+        var name = $('#name').val();
+        socket.emit('join', {
+            name: name,
+            game: game
+        });
+        $game.html($('<p>').text('waiting for players to join...'));
+    });
+
+    socket.on('message', function(msg){
+        console.log(msg);
     });
 }

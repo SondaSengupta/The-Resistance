@@ -47,11 +47,14 @@ module.exports = function(app){
                 completed: false
             };
         };
+        var spies = '2,2,3,3,3,4'.split(',');
         missions = missions.map(createMission);
         return new Game({
+            spies: Number(spies[len-5]),
             length: len,
             players: [],
-            missions: missions
+            missions: missions,
+            leader: 0
         });
     }
 };
