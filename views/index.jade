@@ -1,0 +1,8 @@
+extends ./layout.jade
+
+block content
+    h1 Welcome to the Resistance
+    p how many players?
+    form(action="/game" method="post")
+        input(name="num" type="number")
+        button(type="submit") Go
