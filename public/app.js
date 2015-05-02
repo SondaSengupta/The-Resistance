@@ -1,5 +1,5 @@
 $(function(){
-    var qr = document.getElementById("qrcode")
+    var qr = document.getElementById("qrcode");
     if(qr){
         new QRCode(qr, location.href + '/play');
     }

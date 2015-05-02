@@ -36,13 +36,24 @@ module.exports = function(io){
                 io.to(room).emit('message', data.name + ' has joined' );
                 //If all players have joined start the game
                 if(game.count === game.players.length){
-                    startGame(game);
+                    startGame();
                 }
             });
         });
 
-        function startGame(game){
-            console.log(game, ' started game');
+        function startGame(){
+            Game.findById(room)
+            .then(function(found){
+                found.started = true;
+                rand = _.shuffle(_.range(found.count));
+                for (var i = 0; i < found.spies; i++) {
+                    found.players[rand[i]].spy = true;
+                }
+                return found.save();
+            })
+            .then(function(data){
+                console.log(data)
+            });
         }
 
         socket.on('disconnect', function(){
@@ -51,15 +62,15 @@ module.exports = function(io){
                 Game.findById(room)
                 .then(function(data){
                     game = data;
+                    game.started = false;
                     game.players = game.players.filter(function(el){return el.name !== name});
                     return game.save();
                 })
                 .then(function(data){
-                    console.log('disconnected', game);
                     io.to(room).emit('message', name + ' has disconnected');
-                    if(game.started || !game.players.length){
-                        endGame(room);
-                    }
+                    // if(!game.players.length || game.started){
+                    //     endGame(room);
+                    // }
                 });
             }
         });
