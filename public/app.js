@@ -10,10 +10,9 @@ $(function(){
 });
 
 function run(game){
-    console.log(game);
     var socket = io();
-    $('#click').click(function(){
-        console.log('click');
-        socket.emit('click');
+    socket.emit('join', game);
+    socket.on('message', function(){
+        console.log(arguments);
     });
 }
