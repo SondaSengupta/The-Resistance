@@ -12,15 +12,23 @@ $(function(){
 function run(game){
     var $game = $('#game');
     var socket = io();
+    var name;
     //Join the game
     $('#join').click(function(){
-        var name = $('#name').val();
+        name = $('#name').val();
         socket.emit('join', {
             name: name,
             game: game
         });
         $game.html($('<p>').text('waiting for players to join...'));
     });
+
+    socket.on('start_game', turn);
+
+    function turn(){
+        socket.emit('turn', {name: name, game:game});
+        $game.html('');
+    }
 
     socket.on('message', function(msg){
         console.log(msg);

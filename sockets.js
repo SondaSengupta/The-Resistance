@@ -52,12 +52,11 @@ module.exports = function(io){
                 return found.save();
             })
             .then(function(data){
-                console.log(data)
+                io.in(room).emit('start_game');
             });
         }
 
         socket.on('disconnect', function(){
-            console.log('disconnect', name, room);
             if(name){
                 Game.findById(room)
                 .then(function(data){
@@ -67,6 +66,7 @@ module.exports = function(io){
                     return game.save();
                 })
                 .then(function(data){
+                    console.log.apply(null, data.players);
                     io.to(room).emit('message', name + ' has disconnected');
                     // if(!game.players.length || game.started){
                     //     endGame(room);
