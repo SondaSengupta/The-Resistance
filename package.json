@@ -8,7 +8,6 @@
   },
   "scripts": {
     "test": "karma start",
-    "postinstall": "bower install",
     "start": "node index.js"
   },
   "repository": {
