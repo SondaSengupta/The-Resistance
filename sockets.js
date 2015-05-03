@@ -181,7 +181,6 @@ module.exports = function(io){
                 Game.findById(game)
                 .then(function(g){
                     var mission = getFirstMission(g.missions);
-                    console.log('first mission (team)', mission);
                     var yays = g.vote.reduce(function(sum, val){return sum + Number(val);});
                     if (yays > g.count/2 ){
                         g.vote = [];
