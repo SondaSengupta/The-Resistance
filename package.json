@@ -4,7 +4,9 @@
   "description": "text based fighting game",
   "main": "index.js",
   "scripts": {
-    "test": "karma start"
+    "test": "karma start",
+    "postinstall": "bower install",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
