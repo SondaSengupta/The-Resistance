@@ -191,7 +191,7 @@ module.exports = function(io){
                                 team: data.vote,
                                 mission: mission,
                                 yays: yays,
-                                nays: data.length - yays
+                                nays: data.count - yays
                             });
                         });
                     }
@@ -200,6 +200,7 @@ module.exports = function(io){
                 });
 
                 function failTeam(id, yays){
+                    console.log('failing team');
                     Game.findById(id)
                     .then(function(g){
                         g.vote = [];
