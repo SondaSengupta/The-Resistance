@@ -5,6 +5,7 @@ var express = require('express'),
     server = require('http').createServer(app),
     io = require('socket.io')(server);
 
+app.set('port', (process.env.PORT || 5000));
 app.set('view engine', 'jade');
 app.set('views', './views');
 
@@ -18,6 +19,6 @@ require('./sockets')(io);
 
 app.use(express.static(__dirname + '/public'));
 
-server.listen(8000, function(){
-  console.log('RESISTANCE ON PORT 8000');
+app.listen(app.get('port'), function() {
+  console.log('Node app is running on port', app.get('port'));
 });
