@@ -46,6 +46,7 @@ function run(game){
 
     socket.on('roles', function(data){
         if(data.player.spy){
+            $('#spy').text('You are a spy. You will need to destroy the resistance.');
             toastr.warning('YOU ARE A SPY');
         }
         $game.html(roleTemp(data));
@@ -67,8 +68,9 @@ function run(game){
 
     socket.on('team_vote_request', function(data){
         $game.html(voteTemp(data));
-        $('#vote').click(function(){
-            choice = Boolean($('#vote-val').val());
+        $('.teamvote').click(function(){
+            $('.teamvote').off();
+            choice = $(this).data('value') === 'yay'
             socket.emit('team_vote', {
                 choice: choice,
                 id: game,
@@ -85,8 +87,9 @@ function run(game){
         else
             data.chosen = false;
         $game.html(teamTemp(data));
-        $('#vote').click(function(){
-            choice = Boolean($('#vote-val').val());
+        $('.vote').click(function(){
+            $('.vote').off();
+            choice = $(this).data('value') === 'success';
             socket.emit('mission_vote', {
                 choice: choice,
                 id: game,

@@ -1,8 +1,7 @@
-<h1>FIGHT THE SYSTEM!</h1>
-<h2>VOTE</h2>
-<p><%= vote.join(' and ') %></p> 
-<select id="vote-val">
-    <option value="true">Yay</option>
-    <option value="">Nay</option>
-</select>
-<button id="vote">VOTE</button>
+<h2>Team vote</h2>
+<p>
+The proposed team is <%= vote.join(' and ') %>. A majority
+can vote the team now. Vote yay or nay.
+</p> 
+<button class="btn btn-success col-xs-6 btn-lg teamvote" data-value="yay">Yay</button>
+<button class="btn btn-danger col-xs-6 btn-lg teamvote" data-value="nay">Nay</button>

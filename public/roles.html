@@ -1,11 +1,27 @@
-<h1>FIGHT THE SYSTEM!</h1>
 <% if(leader) { %>
-<h2>You are the leader</h2>
-<p>Please pick <%= mission.required %> members for this team</p>
+<h2 class="text-center">You are the leader</h2>
+<p>
+    Please pick <%= mission.required %> members for this team.
+    This mission will require <%= mission.double ? 2 : 1 %> failure vote(s) to fail.
+</p>
+
+<div class="btn-group" data-toggle="buttons">
     <% _.each(names, function(name){ %>
-        <label><%= name %></label>
-        <input type="checkbox" class="teamNames" value="<%= name %>">  
+        <label for="" class="btn btn-default">
+            <input type="checkbox" autocomplete="off" class="teamNames" value="<%= name %>"> <%= name %>
+        </label>
     <% }) %>
-    <button id="selectTeam">Select Team</button>
+</div>
+
+<hr>
+
+<button class="btn btn-primary btn-block" id="selectTeam">Select Team</button>
+<% } %>
+<% if (!leader) { %>
+<p>
+    Please wait while the leader selects the team.
+    This mission requires <%= mission.required %> members and
+    <%= mission.double ? 2 : 1 %> failure vote(s) to fail.
+</p>
 <% } %>
 

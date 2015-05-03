@@ -74,7 +74,6 @@ module.exports = function(io){
                 var names = _.pluck(game.players, 'name');
                 var leader = i === game.leader;
                 var mission = getFirstMission(game.missions);
-                console.log('roles mission', mission);
                 socket.emit('roles', {
                     names: names,
                     player: player,
@@ -136,13 +135,10 @@ module.exports = function(io){
                 Game.findById(game)
                 .then(function(g){
                     var mission = getFirstMission(g.missions);
-                    console.log('first mission (mission)', mission);
                     var nays = g.vote.reduce(function(sum, val){
-                        console.log('sum', sum, 'val', val);
                         var x = val === true ? 0 : 1;
                         return sum + x;
                     }, 0);
-                    console.log('nays', nays, 'vote', g.vote);
                     if(nays === 0 || (mission.double && nays < 2)){
                         result = 'success';
                         g.vote = [];

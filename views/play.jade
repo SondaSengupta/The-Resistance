@@ -1,8 +1,12 @@
 extends ./layout.jade
 
 block content
-
+    .jumbotron
+        h1 The Resistance
+    h6#spy
     #game(data-game='#{game}')
         p Please enter your name
-        input#name(placeholder='name')
-        button#join Join
+        .form-inline
+            .form-group
+                input#name.form-control(placeholder='name')
+                button.btn.btn-primary#join.form-control Join

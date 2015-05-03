@@ -1,5 +1,12 @@
 extends ./layout.jade
 
 block content
-    h1 Welcome to the Resistance
-    #qrcode
+    .jumbotron
+        h1 The Resistance
+    .col-md-6.col-md-offset-3
+        p.
+            Use the code below to play the game. Have everyone who is going
+            to play the game scan the code with a smartphone and follow the
+            link.
+        h3.text-center SCAN TO PLAY
+        #qrcode(style="margin:0 auto 50px;width:256px")
