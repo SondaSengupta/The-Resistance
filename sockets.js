@@ -71,10 +71,15 @@ module.exports = function(io){
             .then(function(game){
                 var i = _.findIndex(game.players, {name: data.name});
                 var player = game.players[i];
+                var spies = [];
+                if (player.spy)
+                    spies = _.filter(game.players, {spy: true});
+                console.log(spies);
                 var names = _.pluck(game.players, 'name');
                 var leader = i === game.leader;
                 var mission = getFirstMission(game.missions);
                 socket.emit('roles', {
+                    spies: spies,
                     names: names,
                     player: player,
                     leader: leader,
@@ -131,28 +136,32 @@ module.exports = function(io){
         */
         function tallyVotes (game, type, data) {
             if(type==='mission'){
-                var result;
+                var result, nays, yays;
                 Game.findById(game)
                 .then(function(g){
                     var mission = getFirstMission(g.missions);
-                    var nays = g.vote.reduce(function(sum, val){
+                    nays = g.vote.reduce(function(sum, val){
                         var x = val === true ? 0 : 1;
                         return sum + x;
                     }, 0);
+                    yays = g.vote.length - nays;
                     if(nays === 0 || (mission.double && nays < 2)){
-                        result = 'success';
+                        result = 'success.';
                         g.vote = [];
                         g.markModified('vote');
                         mission.completed = 'success';
                         g.markModified('missions');
                     }
                     else{
-                        result = 'failure';
+                        result = 'failure.';
                         g.vote = [];
                         g.markModified('vote');
                         mission.completed = 'failure';
                         g.markModified('missions');
                     }
+                    result += ' There were ' + nays + 
+                        ' votes for failure and ' + yays + 
+                        ' votes for success.'
                     return g.save();
                 })
                 .then(function(g){
@@ -164,7 +173,6 @@ module.exports = function(io){
                         if(val.completed === 'failure')
                             failures++;
                     });
-                    console.log('fail', failures, 'success', successes);
                     if(failures > 2 || successes > 2){
                         io.in(game).emit('game_over', {successes: successes, failures: failures});
                     }

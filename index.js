@@ -12,8 +12,8 @@ var server = require('http').createServer(app),
 app.set('view engine', 'jade');
 app.set('views', './views');
 
-mongoose.connect('mongodb://cdehart:arstarst@ds031892.mongolab.com:31892/the-resistance');
-// mongoose.connect('localhost:27017/theResistance1');
+// mongoose.connect('mongodb://cdehart:arstarst@ds031892.mongolab.com:31892/the-resistance');
+mongoose.connect('localhost:27017/theResistance1');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

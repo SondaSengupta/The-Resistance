@@ -46,8 +46,11 @@ function run(game){
 
     socket.on('roles', function(data){
         if(data.player.spy){
-            $('#spy').text('You are a spy. You will need to destroy the resistance.');
-            toastr.warning('YOU ARE A SPY');
+            var spies = data.spies.reduce(function(sum, el){return sum + ' and ' +  el.name;}, '');
+            $('#spy').text(
+                'You are a spy. You will need to destroy the resistance.' + 
+                'The spy(s) are' + spies
+            );
         }
         $game.html(roleTemp(data));
         $('#selectTeam').click(function(){
