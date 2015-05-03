@@ -1,0 +1,15 @@
+<h2>MISSION TIME!</h2>
+<p>
+    The team is <%= team.join(' and ') %>. 
+    The vote was <%= yays %> yays versus <% nays %> nays. 
+    This mission needs <%= mission.double ? '2' : '1' %> failure vote(s) to fail
+</p>
+
+<% if(chosen){ %>
+<p>Vote to fail or succeed</p>
+<select id="vote-val">
+    <option value="true">Yay</option>
+    <option value="">Nay</option>
+</select>
+<button id="vote">VOTE</button>
+<% } %>

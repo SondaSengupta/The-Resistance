@@ -1,0 +1,11 @@
+<h1>FIGHT THE SYSTEM!</h1>
+<% if(leader) { %>
+<h2>You are the leader</h2>
+<p>Please pick <%= mission.required %> members for this team</p>
+    <% _.each(names, function(name){ %>
+        <label><%= name %></label>
+        <input type="checkbox" class="teamNames" value="<%= name %>">  
+    <% }) %>
+    <button id="selectTeam">Select Team</button>
+<% } %>
+
