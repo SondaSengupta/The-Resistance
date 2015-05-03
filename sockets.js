@@ -187,11 +187,12 @@ module.exports = function(io){
                         g.markModified('vote');
                         g.save()
                         .then(function(){
+                            console.log('nays', g.count - yays);
                             io.in(game).emit('teamSuccess',{
                                 team: data.vote,
                                 mission: mission,
                                 yays: yays,
-                                nays: data.count - yays
+                                nays: g.count - yays
                             });
                         });
                     }
