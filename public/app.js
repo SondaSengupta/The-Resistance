@@ -11,7 +11,12 @@ $(function(){
 
 function run(game){
     var roleTemp, voteTemp, teamTemp;
+    var scoreTemp = _.template(
+        'The Resistance has <strong><%= success %></strong> success(es)' +
+        'and <strong><%= failure %></strong> failure(s).'
+    );
     var $game = $('#game');
+    var $score = $('#score');
     var socket = io();
     var name;
     $.get('/vote.html')
@@ -52,6 +57,7 @@ function run(game){
                 'The spy(s) are' + spies
             );
         }
+        $score.html(scoreTemp(data.score));
         $game.html(roleTemp(data));
         $('#selectTeam').click(function(){
             var $checked = $('.teamNames:checked');

@@ -78,7 +78,9 @@ module.exports = function(io){
                 var names = _.pluck(game.players, 'name');
                 var leader = i === game.leader;
                 var mission = getFirstMission(game.missions);
+                var score = game.score;
                 socket.emit('roles', {
+                    score: score,
                     spies: spies,
                     names: names,
                     player: player,
@@ -151,6 +153,8 @@ module.exports = function(io){
                         g.markModified('vote');
                         mission.completed = 'success';
                         g.markModified('missions');
+                        g.score.success++;
+                        g.markModified('score');
                     }
                     else{
                         result = 'failure.';
@@ -158,6 +162,8 @@ module.exports = function(io){
                         g.markModified('vote');
                         mission.completed = 'failure';
                         g.markModified('missions');
+                        g.score.failure++;
+                        g.markModified('score');
                     }
                     result += ' There were ' + nays + 
                         ' votes for failure and ' + yays + 

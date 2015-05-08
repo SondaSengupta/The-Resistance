@@ -50,6 +50,10 @@ module.exports = function(app){
         var spies = '2,2,3,3,3,4'.split(',');
         missions = missions.map(createMission);
         return new Game({
+            score: {
+                success: 0,
+                failure: 0
+            },
             spies: Number(spies[len-5]),
             count: len,
             players: [],
